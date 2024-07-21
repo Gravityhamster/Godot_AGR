@@ -9,7 +9,11 @@ public partial class CarBuiltInPhysics : CharacterBody3D
 	[Export]
 	public float Speed = 1.0f;
 	[Export]
+	public float AirSpeed = 0.5f;
+	[Export]
 	public float StrafeSpeed = 0.5f;
+	[Export]
+	public float AirStrafeSpeed = 0.5f;
 	[Export]
 	public float JumpVelocity = 4.5f;
 	[Export]
@@ -138,9 +142,16 @@ public partial class CarBuiltInPhysics : CharacterBody3D
 		SnapToTrack();
 		
 		// Get movement forces
-		vel += GlobalTransform.Basis.Z * Speed *  Input.GetActionStrength("Forward") ;
-		vel += GlobalTransform.Basis.X * StrafeSpeed *  strafe ;
-		
+		if (IsRaycastColliding())
+			vel += GlobalTransform.Basis.Z * Speed *  Input.GetActionStrength("Forward") ;
+		else
+			vel += GlobalTransform.Basis.Z * AirSpeed *  Input.GetActionStrength("Forward") ;
+			
+		if (IsRaycastColliding())
+			vel += GlobalTransform.Basis.X * StrafeSpeed *  strafe ;
+		else
+			vel += GlobalTransform.Basis.X * AirStrafeSpeed *  strafe ;
+
 		// Brakes (Only on ground)
 		if (IsRaycastColliding())
 		{
@@ -152,14 +163,14 @@ public partial class CarBuiltInPhysics : CharacterBody3D
 		rotateChange = 0;
 		pitchChange = 0;
 		rollChange = 0;
-		rotateChange = RotateSpeed*Mathf.Clamp(rotation,-1,1)*(float)delta;//0;
-		if (!IsRaycastColliding()) pitchChange = PitchSpeed*Mathf.Clamp(pitch,-1,1)*(float)delta;
-		if (!IsRaycastColliding()) rollChange = -RollSpeed*Mathf.Clamp(roll,-1,1)*(float)delta;
+		rotateChange = RotateSpeed*Mathf.Clamp(rotation,-1,1);//0;
+		if (!IsRaycastColliding()) pitchChange = PitchSpeed*Mathf.Clamp(pitch,-1,1);
+		if (!IsRaycastColliding()) rollChange = -RollSpeed*Mathf.Clamp(roll,-1,1);
 		
 		// Apply rotation
-		Rotate(GlobalTransform.Basis.Y, rotateChange);
-		Rotate(GlobalTransform.Basis.X, pitchChange);
-		Rotate(GlobalTransform.Basis.Z, rollChange);
+		Rotate(GlobalTransform.Basis.Y, rotateChange*(float)delta);
+		Rotate(GlobalTransform.Basis.X, pitchChange*(float)delta);
+		Rotate(GlobalTransform.Basis.Z, rollChange*(float)delta);
 		
 		// Handle passive forces
 		if (!IsRaycastColliding())
