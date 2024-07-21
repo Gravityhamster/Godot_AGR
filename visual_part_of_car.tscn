@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://be214uo3bhl8y"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_766gq"]
+
+[node name="VisualPartOfCar" type="MeshInstance3D"]
+mesh = SubResource("CapsuleMesh_766gq")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 2.5514e-08, -5.66667e-08, 6.0847e-08, 0.216539, -0.976274, -1.26381e-08, -0.976274, -0.216539, 0, -2.93849, -1.39253)
