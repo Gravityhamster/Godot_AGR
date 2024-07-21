@@ -1,0 +1,119 @@
+[gd_scene load_steps=8 format=3 uid="uid://3jyys2igud1"]
+
+[ext_resource type="Script" path="res://CarBuiltInPhysics.cs" id="1_vspgf"]
+[ext_resource type="Script" path="res://visual_part_of_car.cs" id="3_5l4bg"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7fwxv"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_pah12"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nwt4v"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_suaxw"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_766gq"]
+
+[node name="PhysicsCar" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_vspgf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_7fwxv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, -1.98683e-08, 0, 1.98683e-08, 1, 0, 0, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_pah12")
+skeleton = NodePath("../..")
+
+[node name="RayCast3D9" type="RayCast3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 1.25, 0, 0, 0, 0.6, 0, 0, 0)
+
+[node name="RayCast3D9" type="RayCast3D" parent="RayCast3D9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 0)
+
+[node name="RayCast3D10" type="RayCast3D" parent="RayCast3D9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, 0)
+
+[node name="RayCast3D10" type="RayCast3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 1.25, 0, 0, 0, 0.6, 0, 0, 0.875)
+
+[node name="RayCast3D9" type="RayCast3D" parent="RayCast3D10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, -0.5)
+
+[node name="RayCast3D10" type="RayCast3D" parent="RayCast3D10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -0.5)
+
+[node name="RayCast3D11" type="RayCast3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 1.25, 0, 0, 0, 0.6, 0, 0, -0.875)
+
+[node name="RayCast3D9" type="RayCast3D" parent="RayCast3D11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 0.5)
+
+[node name="RayCast3D10" type="RayCast3D" parent="RayCast3D11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, 0.5)
+
+[node name="RayCast3D12" type="RayCast3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 1.25, 0, 0, 0, 0.6, 0, 0, -0.25)
+
+[node name="RayCast3D13" type="RayCast3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 1.25, 0, 0, 0, 0.6, 0, 0, 0.25)
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_nwt4v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, -1.98683e-08, 0, 1.98683e-08, 1, 0, 0, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_suaxw")
+skeleton = NodePath("../..")
+
+[node name="RayCast3D14" type="RayCast3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 1.25, 0, 0, 0, 0.6, 0, 0, 0)
+
+[node name="RayCast3D9" type="RayCast3D" parent="RayCast3D14"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 0)
+
+[node name="RayCast3D10" type="RayCast3D" parent="RayCast3D14"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, 0)
+
+[node name="RayCast3D15" type="RayCast3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 1.25, 0, 0, 0, 0.6, 0, 0, 0.875)
+
+[node name="RayCast3D9" type="RayCast3D" parent="RayCast3D15"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, -0.5)
+
+[node name="RayCast3D10" type="RayCast3D" parent="RayCast3D15"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -0.5)
+
+[node name="RayCast3D16" type="RayCast3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 1.25, 0, 0, 0, 0.6, 0, 0, -0.875)
+
+[node name="RayCast3D9" type="RayCast3D" parent="RayCast3D16"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 0.5)
+
+[node name="RayCast3D10" type="RayCast3D" parent="RayCast3D16"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, 0.5)
+
+[node name="RayCast3D17" type="RayCast3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 1.25, 0, 0, 0, 0.6, 0, 0, -0.25)
+
+[node name="RayCast3D18" type="RayCast3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 1.25, 0, 0, 0, 0.6, 0, 0, 0.25)
+
+[node name="VisualPartOfCar" type="MeshInstance3D" parent="." node_paths=PackedStringArray("mycar")]
+top_level = true
+mesh = SubResource("CapsuleMesh_766gq")
+skeleton = NodePath("../..")
+script = ExtResource("3_5l4bg")
+mycar = NodePath("..")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="VisualPartOfCar"]
+transform = Transform3D(-1, 8.74228e-08, 0, 2.26267e-08, 0.258819, -0.965926, -8.44439e-08, -0.965926, -0.258819, 0, 0, 0)
+spring_length = 4.0
+
+[node name="Camera3D" type="Camera3D" parent="VisualPartOfCar/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0)

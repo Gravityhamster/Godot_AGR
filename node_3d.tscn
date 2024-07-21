@@ -1,11 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://cwqitk7x2d15n"]
+[gd_scene load_steps=10 format=3 uid="uid://cwqitk7x2d15n"]
 
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="1_h80y0"]
 [ext_resource type="Resource" path="res://terrain/data.hterrain" id="2_atdgq"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="3_07v6w"]
-[ext_resource type="PackedScene" uid="uid://dcwve3y0kc6wq" path="res://physicsCar.tscn" id="4_8i0b7"]
-[ext_resource type="PackedScene" uid="uid://be214uo3bhl8y" path="res://visual_part_of_car.tscn" id="5_ib8n3"]
-[ext_resource type="Script" path="res://visual_part_of_car.cs" id="5_j3h25"]
+[ext_resource type="PackedScene" uid="uid://3jyys2igud1" path="res://phyics_card_with_model.tscn" id="4_8ismi"]
 [ext_resource type="Shape3D" uid="uid://cdshtpueh5s6v" path="res://testRamp.tres" id="7_wt1ck"]
 
 [sub_resource type="Resource" id="Resource_d2013"]
@@ -54,15 +52,6 @@ shape = SubResource("BoxShape3D_aid2j")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D"]
 mesh = SubResource("BoxMesh_u64ov")
 
-[node name="VisualPartOfCar" parent="." node_paths=PackedStringArray("mycar") instance=ExtResource("5_ib8n3")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 125.798, 9.02003, 248.926)
-skeleton = NodePath("../PhysicsCar")
-script = ExtResource("5_j3h25")
-mycar = NodePath("../PhysicsCar")
-
-[node name="PhysicsCar" parent="." instance=ExtResource("4_8i0b7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 125.798, 9.02003, 248.926)
-
 [node name="StaticBody3D2" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.398365, -0.917227, 0, 0.917227, 0.398365, 224.485, 11.8297, 301.309)
 
@@ -72,3 +61,6 @@ shape = ExtResource("7_wt1ck")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2/CollisionShape3D"]
 mesh = SubResource("BoxMesh_sgt8b")
+
+[node name="PhyicsCardWithModel" parent="." instance=ExtResource("4_8ismi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 261, 29, 216)

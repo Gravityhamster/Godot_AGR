@@ -6,18 +6,32 @@ using System.Linq.Expressions;
 
 public partial class CarBuiltInPhysics : CharacterBody3D
 {
-	public const float Speed = 1.0f;
-	public const float StrafeSpeed = 0.5f;
-	public const float JumpVelocity = 4.5f;
-
-	// Get the gravity from the project settings to be synced with RigidBody nodes.
+	[Export]
+	public float Speed = 1.0f;
+	[Export]
+	public float StrafeSpeed = 0.5f;
+	[Export]
+	public float JumpVelocity = 4.5f;
+	[Export]
+	public float BrakeStrength = 1/48f;
+	[Export]
+	public float PitchSpeed = 3f;
+	public float pitchChange = 0;
+	[Export]
+	public float RollSpeed = 3f;
+	public float rollChange = 0;
+	[Export]
+	public float RotateSpeed = 3f;
+	public float rotateChange = 0;
+	public float WasYVel = 0;
+	[Export]
 	public float gravity = 1.0f/4;
 	public List<RayCast3D> rc3d = new List<RayCast3D>();
 	//public MeshInstance3D mesh = new MeshInstance3D();
+	[Export]
 	public float friction = 0.125f/10;
-	public float drag = 1 + 0.125f/10;
+	[Export]
 	public float groundDist = 1f;
-	public float rotateChange = 0;
 	public MeshInstance3D mesh;
 
 	// https://kidscancode.org/godot_recipes/3.x/3d/3d_align_surface/
@@ -74,8 +88,8 @@ public partial class CarBuiltInPhysics : CharacterBody3D
 				if (ray.IsColliding())
 				{
 					np = ray.GetCollisionPoint();
-					dif = ray.GlobalPosition.DistanceTo(Position);
-					look = ray.GlobalPosition.DirectionTo(Position);
+					dif = ray.GlobalPosition.DistanceTo(GlobalPosition);
+					look = ray.GlobalPosition.DirectionTo(GlobalPosition);
 					break;
 				}
 			}
@@ -111,42 +125,55 @@ public partial class CarBuiltInPhysics : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
 	{
+		// Create temp velocity vector
 		Vector3 vel = Velocity;
+
+		// Get inputs
 		float rotation = Input.GetActionStrength("Left") - Input.GetActionStrength("Right");
+		float pitch = Input.GetActionStrength("PitchUp") - Input.GetActionStrength("PitchDown");
+		float roll = Input.GetActionStrength("RollLeft") - Input.GetActionStrength("RollRight");
 		float strafe = Input.GetActionStrength("StrafeLeft") - Input.GetActionStrength("StrafeRight");
+
 		// Snap the machine to the track;
 		SnapToTrack();
 		
-			vel += GlobalTransform.Basis.Z * Speed *  Input.GetActionStrength("Forward") ;
-			vel += GlobalTransform.Basis.X * StrafeSpeed *  strafe ;
-		//ApplyForce(GlobalTransform.Basis.Z * 60);
+		// Get movement forces
+		vel += GlobalTransform.Basis.Z * Speed *  Input.GetActionStrength("Forward") ;
+		vel += GlobalTransform.Basis.X * StrafeSpeed *  strafe ;
 		
-		if (Input.IsActionPressed("Brake"))
+		// Brakes (Only on ground)
+		if (IsRaycastColliding())
 		{
 			//DoBrake
-				
+			vel -= vel*BrakeStrength*Input.GetActionStrength("Brake"); // GlobalTransform.Basis.Z*GlobalTransform.Basis.Z.Dot(vel)*BrakeStrength;
 		}
 
-		rotateChange = 0.05f*Mathf.Clamp(rotation,-1,1);//0;
-
-
-		/*if (Input.IsActionPressed("Left"))
-			rotateChange = 3f * (float)delta;
-			
-		if (Input.IsActionPressed("Right"))
-			rotateChange = -3f * (float)delta;*/
+		// Get turning
+		rotateChange = 0;
+		pitchChange = 0;
+		rollChange = 0;
+		rotateChange = RotateSpeed*Mathf.Clamp(rotation,-1,1)*(float)delta;//0;
+		if (!IsRaycastColliding()) pitchChange = PitchSpeed*Mathf.Clamp(pitch,-1,1)*(float)delta;
+		if (!IsRaycastColliding()) rollChange = -RollSpeed*Mathf.Clamp(roll,-1,1)*(float)delta;
 		
-		Rotate(GlobalTransform.Basis.Y, rotateChange); // ApplyTorque(GlobalTransform.Basis.Y * 10);
+		// Apply rotation
+		Rotate(GlobalTransform.Basis.Y, rotateChange);
+		Rotate(GlobalTransform.Basis.X, pitchChange);
+		Rotate(GlobalTransform.Basis.Z, rollChange);
 		
+		// Handle passive forces
 		if (!IsRaycastColliding())
 			vel += new Vector3(0, -1 * gravity, 0);
 		else
 		{
-			vel -= GlobalTransform.Basis.Y*GlobalTransform.Basis.Y.Dot(vel);
-			vel += vel * (-1 * friction);
+			WasYVel = GlobalTransform.Basis.Y.Dot(vel);
+			vel -= GlobalTransform.Basis.Y*GlobalTransform.Basis.Y.Dot(vel); // Cancel downward movement
+			vel += vel * (-1 * friction); // Friction force
 		}
 
+		// Apply velocity
 		Velocity = vel;
+
 		// Get updated ray cast information
 		MoveAndSlide();
 	}
