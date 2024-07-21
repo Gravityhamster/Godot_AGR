@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="1_h80y0"]
 [ext_resource type="Resource" path="res://terrain/data.hterrain" id="2_atdgq"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="3_07v6w"]
-[ext_resource type="PackedScene" uid="uid://3jyys2igud1" path="res://phyics_card_with_model.tscn" id="4_8ismi"]
+[ext_resource type="PackedScene" path="res://phyics_card_with_model.tscn" id="4_8ismi"]
 [ext_resource type="Shape3D" uid="uid://cdshtpueh5s6v" path="res://testRamp.tres" id="7_wt1ck"]
 
 [sub_resource type="Resource" id="Resource_d2013"]
@@ -38,6 +38,25 @@ shader_params/u_depth_blending = true
 shader_params/u_triplanar = null
 shader_params/u_tile_reduction = null
 
+[node name="HTerrain2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 0, 0, 0, 1, 0, 200, 0)
+script = ExtResource("1_h80y0")
+_terrain_data = ExtResource("2_atdgq")
+chunk_size = 64
+collision_enabled = true
+collision_layer = 1
+collision_mask = 1
+shader_type = "Classic4Lite"
+custom_shader = null
+custom_globalmap_shader = null
+texture_set = SubResource("Resource_d2013")
+render_layers = 1
+cast_shadow = 1
+shader_params/u_ground_uv_scale = 20
+shader_params/u_depth_blending = true
+shader_params/u_triplanar = null
+shader_params/u_tile_reduction = null
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.823295, 0.567614, 0, -0.567614, 0.823295, 263.483, 34.1587, 224.169)
 
@@ -53,7 +72,7 @@ shape = SubResource("BoxShape3D_aid2j")
 mesh = SubResource("BoxMesh_u64ov")
 
 [node name="StaticBody3D2" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.398365, -0.917227, 0, 0.917227, 0.398365, 224.485, 11.8297, 301.309)
+transform = Transform3D(-0.0722912, 0.812796, 0.578045, -0.01525, 0.578593, -0.815474, -0.997267, -0.0677668, -0.0294321, 224.485, 15.4909, 301.309)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
 transform = Transform3D(1, 0, 0, 0, 1, -2.98023e-08, 0, 2.98023e-08, 1, 0, 0, 0)
