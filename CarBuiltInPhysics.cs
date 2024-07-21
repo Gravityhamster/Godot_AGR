@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 public partial class CarBuiltInPhysics : CharacterBody3D
 {
 	public const float Speed = 1.0f;
+	public const float StrafeSpeed = 0.5f;
 	public const float JumpVelocity = 4.5f;
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -110,31 +111,42 @@ public partial class CarBuiltInPhysics : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
 	{
-
+		Vector3 vel = Velocity;
+		float rotation = Input.GetActionStrength("Left") - Input.GetActionStrength("Right");
+		float strafe = Input.GetActionStrength("StrafeLeft") - Input.GetActionStrength("StrafeRight");
 		// Snap the machine to the track;
 		SnapToTrack();
-
-		if (Input.IsActionPressed("Forward"))
-			Velocity += GlobalTransform.Basis.Z * Speed;
-			//ApplyForce(GlobalTransform.Basis.Z * 60);
 		
-		rotateChange = 0;
-		if (Input.IsActionPressed("Left"))
+			vel += GlobalTransform.Basis.Z * Speed *  Input.GetActionStrength("Forward") ;
+			vel += GlobalTransform.Basis.X * StrafeSpeed *  strafe ;
+		//ApplyForce(GlobalTransform.Basis.Z * 60);
+		
+		if (Input.IsActionPressed("Brake"))
+		{
+			//DoBrake
+				
+		}
+
+		rotateChange = 0.05f*Mathf.Clamp(rotation,-1,1);//0;
+
+
+		/*if (Input.IsActionPressed("Left"))
 			rotateChange = 3f * (float)delta;
 			
 		if (Input.IsActionPressed("Right"))
-			rotateChange = -3f * (float)delta;
+			rotateChange = -3f * (float)delta;*/
 		
 		Rotate(GlobalTransform.Basis.Y, rotateChange); // ApplyTorque(GlobalTransform.Basis.Y * 10);
 		
 		if (!IsRaycastColliding())
-			Velocity += new Vector3(0, -1 * gravity, 0);
+			vel += new Vector3(0, -1 * gravity, 0);
 		else
 		{
-			Velocity -= GlobalTransform.Basis.Y*GlobalTransform.Basis.Y.Dot(Velocity);
-			Velocity += Velocity * (-1 * friction);
+			vel -= GlobalTransform.Basis.Y*GlobalTransform.Basis.Y.Dot(vel);
+			vel += vel * (-1 * friction);
 		}
 
+		Velocity = vel;
 		// Get updated ray cast information
 		MoveAndSlide();
 	}

@@ -19,6 +19,6 @@ public partial class visual_part_of_car : MeshInstance3D
 		GlobalTransform = GlobalTransform.InterpolateWith(xform, (float)(5 * delta));
 		GlobalPosition = mycar.GlobalPosition;
 
-		Rotate(GlobalTransform.Basis.Z, -mycar.rotateChange);
+		Rotate(GlobalTransform.Basis.Z.Normalized(), -mycar.rotateChange);
 	}
 }
