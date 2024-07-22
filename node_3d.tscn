@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://cwqitk7x2d15n"]
+[gd_scene load_steps=11 format=3 uid="uid://cwqitk7x2d15n"]
 
+[ext_resource type="Script" path="res://DebugTools.cs" id="1_7tvrr"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="1_h80y0"]
 [ext_resource type="Resource" path="res://terrain/data.hterrain" id="2_atdgq"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="3_07v6w"]
-[ext_resource type="PackedScene" path="res://phyics_card_with_model.tscn" id="4_8ismi"]
+[ext_resource type="PackedScene" uid="uid://3jyys2igud1" path="res://phyics_card_with_model.tscn" id="4_8ismi"]
 [ext_resource type="Shape3D" uid="uid://cdshtpueh5s6v" path="res://testRamp.tres" id="7_wt1ck"]
 
 [sub_resource type="Resource" id="Resource_d2013"]
@@ -19,6 +20,7 @@ textures = [[], []]
 size = Vector3(30, 30, 0.25)
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_7tvrr")
 
 [node name="HTerrain" type="Node3D" parent="."]
 script = ExtResource("1_h80y0")
@@ -83,3 +85,4 @@ mesh = SubResource("BoxMesh_sgt8b")
 
 [node name="PhyicsCardWithModel" parent="." instance=ExtResource("4_8ismi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 261, 29, 216)
+gravity = 1.0
