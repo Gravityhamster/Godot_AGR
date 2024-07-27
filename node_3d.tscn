@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://cwqitk7x2d15n"]
+[gd_scene load_steps=11 format=3 uid="uid://cwqitk7x2d15n"]
 
+[ext_resource type="Script" path="res://DebugTools.cs" id="1_7tvrr"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="1_h80y0"]
 [ext_resource type="Resource" path="res://terrain/data.hterrain" id="2_atdgq"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="3_07v6w"]
@@ -19,8 +20,28 @@ textures = [[], []]
 size = Vector3(30, 30, 0.25)
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_7tvrr")
 
 [node name="HTerrain" type="Node3D" parent="."]
+script = ExtResource("1_h80y0")
+_terrain_data = ExtResource("2_atdgq")
+chunk_size = 64
+collision_enabled = true
+collision_layer = 1
+collision_mask = 1
+shader_type = "Classic4Lite"
+custom_shader = null
+custom_globalmap_shader = null
+texture_set = SubResource("Resource_d2013")
+render_layers = 1
+cast_shadow = 1
+shader_params/u_ground_uv_scale = 20
+shader_params/u_depth_blending = true
+shader_params/u_triplanar = null
+shader_params/u_tile_reduction = null
+
+[node name="HTerrain2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 0, 0, 0, 1, 0, 200, 0)
 script = ExtResource("1_h80y0")
 _terrain_data = ExtResource("2_atdgq")
 chunk_size = 64
@@ -53,7 +74,7 @@ shape = SubResource("BoxShape3D_aid2j")
 mesh = SubResource("BoxMesh_u64ov")
 
 [node name="StaticBody3D2" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.398365, -0.917227, 0, 0.917227, 0.398365, 224.485, 11.8297, 301.309)
+transform = Transform3D(-0.0722912, 0.812796, 0.578045, -0.01525, 0.578593, -0.815474, -0.997267, -0.0677668, -0.0294321, 224.485, 15.4909, 301.309)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
 transform = Transform3D(1, 0, 0, 0, 1, -2.98023e-08, 0, 2.98023e-08, 1, 0, 0, 0)
@@ -64,3 +85,4 @@ mesh = SubResource("BoxMesh_sgt8b")
 
 [node name="PhyicsCardWithModel" parent="." instance=ExtResource("4_8ismi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 261, 29, 216)
+gravity = 1.0

@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://3jyys2igud1"]
+[gd_scene load_steps=9 format=3 uid="uid://3jyys2igud1"]
 
 [ext_resource type="Script" path="res://CarBuiltInPhysics.cs" id="1_vspgf"]
 [ext_resource type="Script" path="res://visual_part_of_car.cs" id="3_5l4bg"]
+[ext_resource type="Script" path="res://CameraDampener.cs" id="3_xbnq8"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7fwxv"]
 
@@ -104,6 +105,14 @@ transform = Transform3D(0.6, 0, 0, 0, 1.25, 0, 0, 0, 0.6, 0, 0, -0.25)
 [node name="RayCast3D18" type="RayCast3D" parent="."]
 transform = Transform3D(0.6, 0, 0, 0, 1.25, 0, 0, 0, 0.6, 0, 0, 0.25)
 
+[node name="CameraGimble" type="Node3D" parent="."]
+top_level = true
+script = ExtResource("3_xbnq8")
+TargetNodepath = NodePath("../VisualPartOfCar")
+
+[node name="Camera3D" type="Camera3D" parent="CameraGimble"]
+transform = Transform3D(-1, -8.70901e-08, -7.6194e-09, 0, 0.0871558, -0.996195, 8.74228e-08, -0.996195, -0.0871558, 0, -10, -4)
+
 [node name="VisualPartOfCar" type="MeshInstance3D" parent="." node_paths=PackedStringArray("mycar")]
 top_level = true
 mesh = SubResource("CapsuleMesh_766gq")
@@ -113,7 +122,4 @@ mycar = NodePath("..")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="VisualPartOfCar"]
 transform = Transform3D(-1, 8.74228e-08, 0, 2.26267e-08, 0.258819, -0.965926, -8.44439e-08, -0.965926, -0.258819, 0, 0, 0)
-spring_length = 4.0
-
-[node name="Camera3D" type="Camera3D" parent="VisualPartOfCar/SpringArm3D"]
-transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0)
+spring_length = 8.0
